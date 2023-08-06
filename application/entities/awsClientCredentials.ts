@@ -1,4 +1,4 @@
-export type S3ClientCredentials = {
+export type AWSClientCredentials = {
     accessKeyId: string,
     secretAccessKey: string
 }

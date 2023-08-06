@@ -15,7 +15,12 @@ export const handler: Handler = async (event: any) => {
 
     console.log("captions: ", captions)
 
-    await putCaptions(captions)
+    const captionsId = await putCaptions(captions)
+
+    return {
+        narrationId,
+        captionsId
+    }
 };
 
 async function putCaptions(captions: CreateTranscriptionResponse) {
@@ -25,6 +30,8 @@ async function putCaptions(captions: CreateTranscriptionResponse) {
     const captionsId = uuidv4();
 
     await helper.putS3Object(process.env.BUCKET, `captions/${captionsId}.srt`, captions)
+
+    return captionsId
 
 }
 
