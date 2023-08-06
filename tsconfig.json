@@ -6,9 +6,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "rootDirs": ["application/src"],
+    "rootDirs": [
+      "application/src"
+    ],
     "baseUrl": "./"
   },
-  "include": ["application/src"],
-  "exclude": ["node_modules"]
+  "include": [
+    "application"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
