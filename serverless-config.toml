@@ -1,0 +1,13 @@
+version = 0.1
+
+[default]
+[default.build.parameters]
+template_file = "serverless-template.yml"
+build_dir = "./build/serverless"
+
+[default.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+stack_name = "serverless-reddit-automator"
+template_file = "./build/serverless/template.yaml"
+resolve_s3 = true
+parameter_overrides = ["BucketName=empty", "Region=empty", "OpenAiApiKey=empty"]

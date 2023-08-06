@@ -1,18 +1,37 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
-Resources:
- 
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    Timeout: 180
+    Handler: index.handler
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Bucket files name
+  Region:
+    Type: String
+    Description: Current region
+  OpenAiApiKey:
+    Type: String
+    Description: OpenAi api key
+  
+
+Resources: 
   #Lambdas
+
   RedditGenerateCaptionsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./application/serverless/aws/lambda/reddit-generate-capitons
-      Handler: index.handler
-      Runtime: nodejs18.x
-      # Environment:
-      #     Variables:
-      #       HELLO_TABLE_NAME: !Ref ExampleTable
+      FunctionName: "REDDIT-AUTOMATOR-GENERATE-CAPTIONS"
+      CodeUri: ./application/serverless/aws/lambda/reddit-generate-captions
+      Environment:
+          Variables:
+            BUCKET: !Ref BucketName
+            REGION: !Ref Region
+            API_KEY: !Ref OpenAiApiKey
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:
@@ -21,3 +40,20 @@ Resources:
         Sourcemap: true
         EntryPoints: 
         - index.ts
+  
+  RedditGenerateNarrationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: "REDDIT-AUTOMATOR-GENERATE-NARRATION"
+      CodeUri: ./application/serverless/aws/lambda/reddit-generate-narration
+      Environment:
+          Variables:
+            BUCKET: !Ref BucketName
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints: 
+        - index.ts  
